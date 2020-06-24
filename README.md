@@ -217,7 +217,55 @@ The concrete form of the `"processingInformation"` metadata is the following (va
 }
 ```
 
+In the following, the different fields are explained:
 
+#### "Derived" metadata
 
+This metadata is derived (calculated) from the `acquisition` metadata.
 
+* `version`: Version number of the Luxendo Image format.
+* `sources`: List of sources (software) that generated / contributed to the given Luxendo Image file.
+* `contains_beads`: Whether the image contains beads (relevant e.g. for image registration).
+* `time_point`: Name of the time point corresponding to the image.
+* `channel`: Name of the "channel". A channel usually refers to a combination of different settings such as illumination and detection wavelengths and other settings that do *not* decide the positioning of the sample.
+* `stack`: Name of the "stack". A stack usually refers to a specific positioning of the sample during acquisition.
+* `objective`: Name of the detection objective through which the given image was acquired.
+* `camera`: Name of the camera that acquired the image data.
+* `time_stamps`: Date and time of the acquisition (corresponding to the *first* frame of the 3d image). There can be multiple time stamps, e.g. in case of a fused image that was created from multiple images, with the time stamps corresponding to the contributing original images.
+* `voxel_size_um`: Physical size of the voxels in sample space, in micrometers. `"depth"` is the shortest spacing between the image planes (perpendicular to planes). Important things to note:
+  - This voxel size is *also* contained in the (first applied) scaling part of the transform given by `affine_to_sample` (see below). This is because, when opening the image with a viewer/software that is unable to apply the `affine_to_sample` transform, it should still be able to show the data with the correct voxel size, read from `voxel_size_um`. 
+  - On the other hand, any viewer or processing software that *can* apply the `affine_to_sample` transform should *ignore* `voxel_size_um` and use `(1,1,1)` as voxel size instead, and then automatically get the correct voxel size from applying `affine_to_sample`, which contains the scaling.
+  - Consequently, software that outputs Luxendo Image files should not only write the voxel size to "voxel_size_um", but *also* include the corresponding scaling transform as first transform in `affine_to_sample`: a diagonal matrix with the voxel sizes in `voxel_size_um` on the diagonal.
+* `image_size_vx`: The image size in each dimension, in number of voxels.
+* `affine_to_sample`: The affine (scaling, rotation, shear, translation) transform that brings the image data to the "sample space", the space permanently connected with the sample stage. Note that for a rotation stage, the sample space may be rotated with respect to the "microscope space" (reference frame of the microscope, which can be thought of as axes along the edges of the microscope "box"), e.g. for the Luxendo MuVi SPIM system. For zero sample-stage rotation and zero sample-stage translation, the "sample space" and the "microscope space" are aligned. `affine_to_sample` can be a list of multiple affine transforms that are to be combined, where the ordering is such that the first transform in the list is the first one applied, and the other transforms follow in the given order. Each affine transform has a `matrix` field containing the *rows* of the affine-transform matrix, and a `translation` field with the 3d translation vector. A field `type` is used to label the transform -- e.g. `"rotation"` if the transform corresponds to a rotation. The `translation` vectors are also used to position the image stack at the correct physical location in sample space.
+* `detection_directions`: The direction of detection (axis of detection objective) as vector in 3d in the current space of the image data. Initially, after acquisition, this space is the "pixel space" (space in which the image data from the camera is originally stored), and so the detection direction is parallel to the vector `(0, 0, 1)`. There can be multiple detection directions, e.g. in case of a fused image consisting of multiple original images with given original detection directions.
+
+#### Acquisition metadata
+
+Inside the `acquisition` field, we have the following metadata fields:
+
+* `microscope_type`: The type of microscope from which the acquired image data stems (e.g. "Luxendo MuVi-SPIM").
+* `serial_number`: The serial number of the microscope.
+* `embedded_version`: Version number of the embedded system running on the microscope.
+* `edits`: In case there were edits to the `acquisition` metadata, this field holds a list of origins and times of the edits.
+* `contains_beads`, `time_point`, `channel`, `stack`, `objective`, `camera`: These have the same meaning as in the "derived" metadata. They appear here again since the image could be a fused image consisting of multiple original images, in which case in the "derived" metadata section we would e.g. have `"camera": "Fused-Left-Right"`, while in the `acquisition` section we would have one set of metadata containing `"camera": "Left"` and another set containing `"camera": "Right"`.
+* `sensor_size_px`: Size of the camera sensor in pixels.
+* `crop_offset_px`: Offset in case the image is cropped (in pixels).
+* `stage_positions`: Start and end positions (in micrometers, or degrees in case of rotation) for each stage-movement direction, together with the name of the respective direction. Each movement direction and offset are specified as vectors in 3d "microscope space" (reference frame of the microscope).
+* `image_plane_vectors`: The two vectors in 3d microscope space that "span" the imaging plane (plane of the light sheet) along the image "edges" of the camera. These two vectors describe the orientation of the imaging plane with respect to the microscope reference frame, and thus with respect to the stage-movement directions. This flexibly defines the geometrical arrangement of the microscope.
+  - `cam_left_to_right`: Vector along the upper edge of the camera image, from left to right.
+  - `cam_top_to_bottom`: Vector along the left edge of the camera image, from top to bottom.
+* `refractive_index`: The refractive index of the medium that encloses the sample.
+* `detection`: Detection-related parameters, such as:
+    - `wavelength_nm`: Detection wavelength (in nanometers).
+    - `numerical_aperture`: Numerical aperture.
+    - `magnification`: Effective magnification.
+    - `cam_pixel_size_um`: Size of a pixel on the camera sensor (in micrometers).
+* `illuminations`: Illumination-related parameters.
+* `time_stamps`: Acquisition date and time.
+  
+
+### The "main" file
+
+A "main" file `main.lux.h5` links to all the datasets in the Luxendo Image files (other `.lux.h5` files), as well as to the metadata (`processingInformation`) inside of them. It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
 
