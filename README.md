@@ -27,10 +27,13 @@ The image data is stored in a h5 dataset called `"Data"`, as 3d array with 16-bi
 
 If there are multiple datasets in one `.lux.h5` file, then they correspond to different resolution layers of a resolution pyramid:
 * `"Data"`: dataset containing the highest-resolution image data.
-* `"Data222"`: dataset containing image data that is downsampled in each dimension by a factor 2.
-* `"Data333"`: image data downsampled by factor 3 in each dimension.
+* `"Data_2_2_2"`: dataset containing image data that is downsampled in each dimension by a factor 2.
+* `"Data_3_3_3"`: image data downsampled by factor 3 in each dimension.
 
 and so on.
+
+The order of the downsampling factors is: `Data_<width>_<height>_<depth>`, referring to the width, height, and depth of the image.
+And they are always *integer* factors.
 
 The highest-resolution image data is typically chunked with chunk size `64*64*64`, whereas lower-resolution data may be chunked with chunk size `32*32*32`.
 
