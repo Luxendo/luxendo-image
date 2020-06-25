@@ -130,7 +130,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
                 [0, 1, 0],
                 [0.49999999999999994, 0, -0.86602540378443871]
             ],
-            "translation": [246, 0 488],
+            "translation": [246, 0, 488],
             "type": "inter-stack:rotation"
         }
     ],
