@@ -39,7 +39,8 @@ The highest-resolution image data is typically chunked with chunk size `64*64*64
 
 ### Metadata
 
-A `.lux.h5` file has a field called `"processingInformation"` that contains all the relevant metadata in `JSON` form.
+A `.lux.h5` file has a h5 dataset called `metadata` that contains JSON data `{"processingInformation": ...}`.
+The entry `"processingInformation"` has all the relevant metadata (in `JSON` form).
 This metadata is divided into "acquisition" metadata and "derived" metadata.
 
 Its high-level structure is:
