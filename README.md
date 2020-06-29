@@ -271,5 +271,37 @@ Inside the `acquisition` field, we have the following metadata fields:
 
 ### The "main" file
 
-A "main" file `main.lux.h5` links to all the datasets in the Luxendo Image files (other `.lux.h5` files), as well as to the metadata (`processingInformation`) inside of them. It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
+A "main" file `main.lux.h5` links to all the datasets in the Luxendo Image files (other `.lux.h5` files), including the `metadata` datasets (containing `processingInformation`). It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
+
+A `main.lux.h5` file has a nested structure (example):
+
+```
+timepoint_First
+  channel_First
+    view_First
+      res_0
+        data
+        metadata
+      res_1
+        data
+      res_2
+        data
+                
+timepoint_Second
+  channel_First
+    view_First
+      res_0
+        data
+        metadata
+      res_1
+        data
+      res_2
+        data
+```
+
+Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `view_<name>`.
+At the deepest nesting level there are the different resolutions, going from highest (`res_0`) to lowest (`res_N`) resolution.
+In each resolution, there is a link `data` to the corresponding image data in a h5 dataset in a *different* `.lux.h5` file.
+The lowest resolution `res_0` also has a link `metadata` to the corresponding `metadata` h5 dataset in the other `.lux.h5` file.
+    
 
