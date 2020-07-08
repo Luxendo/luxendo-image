@@ -150,14 +150,6 @@ The concrete form of the `"processingInformation"` metadata is the following (va
             "stack": "0",
             "objective": "left",
             "camera": "left",
-            "sensor_size_px": {
-                "width": 2048,
-                "height": 2048
-            },
-            "crop_offset_px": {
-                "left": 0,
-                "top": 0
-            },
             "stage_positions": [
                 {
                     "name": "x",
@@ -212,6 +204,14 @@ The concrete form of the `"processingInformation"` metadata is the following (va
                 "cam_pixel_size_um": {
                     "width": 6.5,
                     "height": 6.5
+                },
+                "sensor_size_px": {
+                    "width": 2048,
+                    "height": 2048
+                },
+                "crop_offset_px": {
+                    "left": 0,
+                    "top": 0
                 }
             },
             "illuminations": [],
@@ -253,8 +253,6 @@ Inside the `acquisition` field, we have the following metadata fields:
 * `embedded_version`: Version number of the embedded system running on the microscope.
 * `edits`: In case there were edits to the `acquisition` metadata, this field holds a list of origins and times of the edits.
 * `contains_beads`, `time_point`, `channel`, `stack`, `objective`, `camera`: These have the same meaning as in the "derived" metadata. They appear here again since the image could be a fused image consisting of multiple original images, in which case in the "derived" metadata section we would e.g. have `"camera": "Fused-Left-Right"`, while in the `acquisition` section we would have one set of metadata containing `"camera": "Left"` and another set containing `"camera": "Right"`.
-* `sensor_size_px`: Size of the camera sensor in pixels.
-* `crop_offset_px`: Offset in case the image is cropped (in pixels).
 * `stage_positions`: Start and end positions (in micrometers, or degrees in case of rotation) for each stage-movement direction, together with the name of the respective direction. Each movement direction and offset are specified as vectors in 3d "microscope space" (reference frame of the microscope).
 * `image_plane_vectors`: The two vectors in 3d microscope space that "span" the imaging plane (plane of the light sheet) along the image "edges" of the camera. These two vectors describe the orientation of the imaging plane with respect to the microscope reference frame, and thus with respect to the stage-movement directions. This flexibly defines the geometrical arrangement of the microscope.
   - `cam_left_to_right`: Vector along the upper edge of the camera image, from left to right.
@@ -265,6 +263,8 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `numerical_aperture`: Numerical aperture.
     - `magnification`: Effective magnification.
     - `cam_pixel_size_um`: Size of a pixel on the camera sensor (in micrometers).
+    - `sensor_size_px`: Size of the camera sensor in pixels.
+    - `crop_offset_px`: Offset in case the image is cropped (in pixels).
 * `illuminations`: Illumination-related parameters.
 * `time_stamps`: Acquisition date and time.
   
