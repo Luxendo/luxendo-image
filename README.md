@@ -304,9 +304,11 @@ At the deepest nesting level there are the different resolutions, going from hig
 In each resolution, there is a link `data` to the corresponding image data in a h5 dataset in a *different* `.lux.h5` file.
 The *highest* resolution `res_0` also has a link `metadata` to the corresponding `metadata` h5 dataset in the other `.lux.h5` file.
 
+### The experiment folder
+
 The `main.lux.h5` file resides in a folder (usually named with a date and time stamp) corresponding to the experiment in which the images were acquired.
 It links to the raw (and processed) images (`.lux.h5`), which are also contained in this folder.
-To move or copy the images to a different location, this folder should be moved/copied as a whole, to not break the links in the `main.lux.h5` file pointing to the image data.
+To move or copy the images to a different location, this "experiment" folder should be moved/copied as a whole, to not break the links in the `main.lux.h5` file pointing to the image data.
 
 The individual image files (`.lux.h5`) should also not be renamed manually or moved to different subfolders inside the experiment folder, since this would break the links as well.
     
