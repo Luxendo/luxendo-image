@@ -303,5 +303,9 @@ Within a time point `timepoint_<name>`, there can be multiple channels `channel_
 At the deepest nesting level there are the different resolutions, going from highest (`res_0`) to lowest (`res_N`) resolution.
 In each resolution, there is a link `data` to the corresponding image data in a h5 dataset in a *different* `.lux.h5` file.
 The *highest* resolution `res_0` also has a link `metadata` to the corresponding `metadata` h5 dataset in the other `.lux.h5` file.
+
+The `main.lux.h5` file resides in a folder (usually named with a date and time stamp) corresponding to the experiment in which the images were acquired.
+It links to the raw (and processed) images (`.lux.h5`), which are also contained in this folder.
+To move or copy the images to a different location, this folder should be moved/copied as a whole, to not break the links in the `main.lux.h5` file pointing to the image data.
     
 
