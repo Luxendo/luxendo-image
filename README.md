@@ -267,18 +267,34 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
 * `illuminations`: Illumination-related parameters.
 * `time_stamps`: Acquisition date and time.
-  
+
+
+### The "raw" and "processed" subfolders
+
+Luxendo Image files are inside a subfolder named `raw` if they come directly from acquisition.
+Post-processed images (e.g. fused images), on the other hand, are in a subfolder called `processed`.
+
 
 ### The "main" file
 
-A "main" file `main.lux.h5` links to all the datasets in the Luxendo Image files (other `.lux.h5` files), including the `metadata` dataset (containing `processingInformation`). It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
+A "main" file links to all the datasets in the Luxendo Image files (other `.lux.h5` files), including the `metadata` dataset (containing `processingInformation`). It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
+The "main" file that links to the data in the `raw` folder is called `main_raw.lux.h5`. 
+A "main" file that links to both `raw` and `processed` data is called `main_processed.lux.h5`.
 
-A `main.lux.h5` file has a nested structure (example):
+A "main" file has a nested structure (example):
 
 ```
 timepoint_First
   channel_First
-    view_First
+    raw_First
+      res_0
+        data
+        metadata
+      res_1
+        data
+      res_2
+        data
+   proc_First
       res_0
         data
         metadata
@@ -289,7 +305,15 @@ timepoint_First
                 
 timepoint_Second
   channel_First
-    view_First
+    raw_First
+      res_0
+        data
+        metadata
+      res_1
+        data
+      res_2
+        data
+    proc_First
       res_0
         data
         metadata
@@ -299,16 +323,16 @@ timepoint_Second
         data
 ```
 
-Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `view_<name>`.
+Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `raw_<name>` or `proc_<name>`, depending whether the view links to `raw` or `processed` data.
 At the deepest nesting level there are the different resolutions, going from highest (`res_0`) to lowest (`res_N`) resolution.
 In each resolution, there is a link `data` to the corresponding image data in a h5 dataset in a *different* `.lux.h5` file.
 The *highest* resolution `res_0` also has a link `metadata` to the corresponding `metadata` h5 dataset in the other `.lux.h5` file.
 
 ### The experiment folder
 
-The `main.lux.h5` file resides in a folder (usually named with a date and time stamp) corresponding to the experiment in which the images were acquired.
-It links to the raw (and processed) images (`.lux.h5`), which are also contained in this folder.
-To move or copy the images to a different location, this "experiment" folder should be moved/copied as a whole, to not break the links in the `main.lux.h5` file pointing to the image data.
+The "main" files as well as `raw` and `processed` subfolders reside in a folder (usually named with a date and time stamp) corresponding to the experiment in which the images were acquired.
+They link to the `raw` (and `processed`) images (`.lux.h5`), which are contained in the respective subfolders inside the "experiment" folder.
+To move or copy the images to a different location, this "experiment" folder should be moved/copied as a whole, to not break the links in the "main" files pointing to the image data.
 
 The individual image files (`.lux.h5`) should also not be renamed manually or moved to different subfolders inside the experiment folder, since this would break the links as well.
     
