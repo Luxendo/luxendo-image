@@ -287,46 +287,32 @@ A "main" file has a nested structure (example):
 timepoint_First
   channel_First
     raw_First
-      res_0
-        data
-        metadata
-      res_1
-        data
-      res_2
-        data
-   proc_First
-      res_0
-        data
-        metadata
-      res_1
-        data
-      res_2
-        data
-                
+      Data
+      Data_2_2_2
+      metadata
+    proc_First
+      Data
+      Data_2_2_2
+      Data_3_3_3
+      metadata
+
 timepoint_Second
   channel_First
     raw_First
-      res_0
-        data
-        metadata
-      res_1
-        data
-      res_2
-        data
+      Data
+      Data_2_2_2
+      metadata
     proc_First
-      res_0
-        data
-        metadata
-      res_1
-        data
-      res_2
-        data
+      Data
+      Data_2_2_2
+      Data_3_3_3
+      metadata
 ```
 
 Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `raw_<name>` or `proc_<name>`, depending whether the view links to `raw` or `processed` data.
-At the deepest nesting level there are the different resolutions, going from highest (`res_0`) to lowest (`res_N`) resolution.
-In each resolution, there is a link `data` to the corresponding image data in a h5 dataset in a *different* `.lux.h5` file.
-The *highest* resolution `res_0` also has a link `metadata` to the corresponding `metadata` h5 dataset in the other `.lux.h5` file.
+At the deepest nesting level there are the datasets (or links) for the different resolutions (`Data`, `Data_2_2_2`, etc.) and to the metadata (`metadata`).
+Instead of a dataset, there may be a link to the corresponding dataset in a *different* h5 file.
+The content of `metadata` has the form given above.
 
 ### The experiment folder
 
