@@ -10,8 +10,8 @@ Luxendo Image is based on the widely used, open HDF5 (`.h5`) format, to achieve 
 The main goals for the Luxendo Image format are:
 
 * Stability and long-term compatibility
-* Store image data corresponding to different time points and channels in *separate* `.lux.h5` files, to keep file sizes as small as possible and facilitate the handling of the files.
-* Easy linking to the *same* `.lux.h5` files from *different* "master" files (e.g. Fiji BigDataViewer) to provide compatibility with different tools / viewers while avoiding duplication of image data.
+* To keep file sizes as small as possible and facilitate the handling of the files, enable linking from a "main" `.lux.h5` file to image data in *separate* `.lux.h5` files (e.g. for different time points and channels).
+* Easy linking to the *same* `.lux.h5` files from *different* "main" files (e.g. Fiji BigDataViewer) to provide compatibility with different tools / viewers while avoiding duplication of image data.
 * Enable everyone to load / output Luxendo Image files into / from their own software and custom processing / analysis pipelines.
 * Metadata:
   - Clearly distinguish between "acquisition" and "derived" metadata to transparently keep track of metadata, e.g. when multiple images are fused.
@@ -269,6 +269,59 @@ Inside the `acquisition` field, we have the following metadata fields:
 * `time_stamps`: Acquisition date and time.
 
 
+### Example structure
+
+This is an example for the structure inside a `.lux.h5` file:
+
+```
+Data
+Data_2_2_2
+Data_3_3_3
+metadata
+```
+
+There are three h5 datasets `Data`, `Data_2_2_2`, and `Data_3_3_3` containing three different resolutions of image data.
+The content of the dataset `metadata` has the form described above.
+Note that each of the items can also be a *link* pointing to a corresponding dataset in a *different* h5 file.
+
+
+### Optional nested groups in a `.lux.h5` file
+
+Optionally, a `.lux.h5` can also have a nested structure: on the highest level there are groups `timepoint_<name>` for the different time points, and these contain groups `channel_<name>` for different channels.
+The channel groups then contain groups for different "views", which can have arbitrary names. 
+And inside the views, there are the same datasets for image data and metadata as in a flat (not nested) `.lux.h5` file described above.
+So for instance:
+
+```
+timepoint_First
+  channel_First
+    someView
+      Data
+      Data_2_2_2
+      metadata
+    someOtherView
+      Data
+      Data_2_2_2
+      Data_3_3_3
+      metadata
+
+timepoint_Second
+  channel_First
+    someView
+      Data
+      Data_2_2_2
+      metadata
+    someOtherView
+      Data
+      Data_2_2_2
+      Data_3_3_3
+      metadata
+```
+
+Also here (as for a flat `.lux.h5` file), instead of a dataset, there can also be a *link* pointing to a dataset in a *different* h5 file.
+When a `.lux.h5` file is opened, to check whether it is flat or nested, it can just be checked if at the highest level it contains a dataset `Data` or not.
+
+
 ### The "raw" and "processed" subfolders
 
 Luxendo Image files are inside a subfolder named `raw` if they come directly from acquisition.
@@ -277,11 +330,13 @@ Post-processed images (e.g. fused images), on the other hand, are in a subfolder
 
 ### The "main" file
 
-A "main" file links to all the datasets in the Luxendo Image files (other `.lux.h5` files), including the `metadata` dataset (containing `processingInformation`). It contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
+A "main" file links to all the datasets in the other Luxendo Image files (other `.lux.h5` files), including the `metadata` dataset (containing `processingInformation`).
+It has a nested structure as described above.
+And it contains separate links to all the different resolution levels of the image data. It can link to multiple channels, time points, cameras, stacks, etc.
 The "main" file that links to the data in the `raw` folder is called `main_raw.lux.h5`. 
 A "main" file that links to both `raw` and `processed` data is called `main_processed.lux.h5`.
 
-A "main" file has a nested structure (example):
+A "main" file has a structure (example):
 
 ```
 timepoint_First
@@ -310,9 +365,7 @@ timepoint_Second
 ```
 
 Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `raw_<name>` or `proc_<name>`, depending whether the view links to `raw` or `processed` data.
-At the deepest nesting level there are the datasets (or links) for the different resolutions (`Data`, `Data_2_2_2`, etc.) and to the metadata (`metadata`).
-Instead of a dataset, there may be a link to the corresponding dataset in a *different* h5 file.
-The content of `metadata` has the form given above.
+At the deepest nesting level, there are the links to the datasets for the different resolutions (`Data`, `Data_2_2_2`, etc.) and to the metadata (`metadata`).
 
 ### The experiment folder
 
