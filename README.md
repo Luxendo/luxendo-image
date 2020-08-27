@@ -23,6 +23,7 @@ A Luxendo Image (`.lux.h5`) file is a regular `.h5` (HDF5) file that has a defin
 
 ### Image Data
 
+The image must be a 3d image, i.e., it needs to have *at least* two planes.
 The image data is stored in a h5 dataset called `"Data"`, as 3d array with 16-bit unsigned-integer (`uint16`) elements.
 
 If there are multiple datasets in one `.lux.h5` file, then they correspond to different resolution layers of a resolution pyramid:
