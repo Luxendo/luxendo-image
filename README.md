@@ -1,7 +1,7 @@
 # Luxendo Image
 
 In the following, the "Luxendo Image" (`.lux.h5`) format is defined and explained.
-Its purpose is to provide an open, transparent image format for 3d SPIM images acquired by Luxendo microscopes, as well as for output images from further processing / analysis.
+Its purpose is to provide an open, transparent image format for 3d SPIM (_Single Plane Illumination Microscopy_) images acquired by Luxendo microscopes, as well as for output images from further processing / analysis.
 We designed this format to contain all the relevant acquisition, viewing, and processing metadata in a clear and flexible form.
 Luxendo Image is based on the widely used, open HDF5 (`.h5`) format, to achieve broad compatibility.
 
@@ -11,8 +11,8 @@ The main goals for the Luxendo Image format are:
 
 * Stability and long-term compatibility
 * To keep file sizes as small as possible and facilitate the handling of the files, enable linking from a "main" `.lux.h5` file to image data in *separate* `.lux.h5` files (e.g. for different time points and channels).
-* Easy linking to the *same* `.lux.h5` files from *different* "main" files (e.g. Fiji BigDataViewer) to provide compatibility with different tools / viewers while avoiding duplication of image data.
-* Enable everyone to load / output Luxendo Image files into / from their own software and custom processing / analysis pipelines.
+* Easy linking to the *same* `.lux.h5` files from *different* "main" files to provide compatibility with different tools / viewers (e.g. Fiji BigDataViewer) while avoiding duplication of image data.
+* Enable everyone to load and create Luxendo Image files in their own software and custom processing / analysis pipelines.
 * Metadata:
   - Clearly distinguish between "acquisition" and "derived" metadata to transparently keep track of metadata, e.g. when multiple images are fused.
   - Use the same form of metadata for both newly acquired images as well as processed images so that already processed images can be fed back into pipelines for further processing.
@@ -46,14 +46,14 @@ This metadata is divided into "acquisition" metadata and "derived" metadata.
 
 Its high-level structure is:
 
-```
+```jsonc
 "processingInformation": {
 
-  < ... all "derived" metadata (e.g. transforms) ... >
+  // ... all "derived" metadata (e.g. transforms) ...
 
   "acquisition": [
   
-     < ... all "acquisition" metadata (i.e. microscope settings, geometry) ... >
+    // ... all "acquisition" metadata (i.e. microscope settings, geometry) ...
   
   ]
 
@@ -68,7 +68,7 @@ Note that the same form of `"processingInformation"` is used for both newly acqu
 
 The concrete form of the `"processingInformation"` metadata is the following (values are just examples):
 
-```
+```jsonc
 "processingInformation": {
     "version": "1.0.0",
     "sources": ["Luxendo MuVi-SPIM"],
