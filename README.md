@@ -214,6 +214,10 @@ The concrete form of the `"processingInformation"` metadata is the following (va
                 "crop_offset_px": {
                     "left": 0,
                     "top": 0
+                },
+                "crop_size_px": {
+                    "width": 2016,
+                    "height": 1050
                 }
             },
             "illuminations": [],
@@ -268,6 +272,7 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `cam_pixel_size_um`: Size of a pixel on the camera sensor (in micrometers).
     - `sensor_size_px`: Size of the camera sensor in pixels.
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
+    - `crop_size_px`: Size (width and height) of the region of interest when cropping (in pixels).
 * `illuminations`: Illumination-related parameters.
 * `time_stamps`: Acquisition date and time.
 
