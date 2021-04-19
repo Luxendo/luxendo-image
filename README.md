@@ -78,7 +78,6 @@ The concrete form of the `"processingInformation"` metadata is the following (va
     "stack": "0",
     "objective": "left",
     "camera": "left",
-    "time_stamps": ["2020-06-19_144019"],
     "voxel_size_um": {
         "width": 0.40625,
         "height": 0.40625,
@@ -221,7 +220,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
                 }
             },
             "illuminations": [],
-            "time_stamps": ["2020-06-19_144019"]
+            "time_stamps": ["2021-04-19T14:45:38.073876Z", "2021-04-19T14:45:38.075876Z", "2021-04-19T14:45:38.077876Z"]
         }
     ]
 }
@@ -241,7 +240,6 @@ This metadata is derived (calculated) from the `acquisition` metadata.
 * `stack`: Name of the "stack". A stack usually refers to a specific positioning of the sample during acquisition.
 * `objective`: Name of the detection objective through which the given image was acquired.
 * `camera`: Name of the camera that acquired the image data.
-* `time_stamps`: Date and time of the acquisition (corresponding to the *first* frame of the 3d image). There can be multiple time stamps, e.g. in case of a fused image that was created from multiple images, with the time stamps corresponding to the contributing original images.
 * `voxel_size_um`: Physical size of the voxels in sample space, in micrometers. `"depth"` is the shortest spacing between the image planes (perpendicular to planes). Important things to note:
   - This voxel size is *also* contained in the (first applied) scaling part of the transform given by `affine_to_sample` (see below). This is because, when opening the image with a viewer/software that is unable to apply the `affine_to_sample` transform, it should still be able to show the data with the correct voxel size, read from `voxel_size_um`. 
   - On the other hand, any viewer or processing software that *can* apply the `affine_to_sample` transform should *ignore* `voxel_size_um` and use `(1,1,1)` as voxel size instead, and then automatically get the correct voxel size from applying `affine_to_sample`, which contains the scaling.
@@ -274,7 +272,7 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
     - `crop_size_px`: Size (width and height) of the region of interest when cropping (in pixels).
 * `illuminations`: Illumination-related parameters.
-* `time_stamps`: Acquisition date and time.
+* `time_stamps`: Acquisition date and time for each image plane, including microseconds. The format is `2021-04-19T14:45:38.073876Z` in UTC (ISO-8601: https://en.wikipedia.org/wiki/ISO_8601).
 
 
 ### Example structure
