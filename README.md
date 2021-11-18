@@ -73,7 +73,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
     "version": "1.0.0",
     "sources": ["Luxendo MuVi-SPIM"],
     "contains_beads": false,
-    "time_point": "00000",
+    "time_point": "00003",
     "channel": "1",
     "stack": "0",
     "objective": "left",
@@ -145,7 +145,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
             "embedded_version": "3.0.0",
             "edits": [],
             "contains_beads": false,
-            "time_point": "00000",
+            "time_point": "00003",
             "channel": "1",
             "stack": "0",
             "objective": "left",
@@ -235,7 +235,7 @@ This metadata is derived (calculated) from the `acquisition` metadata.
 * `version`: Version number of the Luxendo Image format.
 * `sources`: List of sources (software) that generated / contributed to the given Luxendo Image file.
 * `contains_beads`: Whether the image contains beads (relevant e.g. for image registration).
-* `time_point`: Name of the time point corresponding to the image.
+* `time_point`: Name of the time point corresponding to the image. A valid name for a time point is an (unsigned) integer (in the form of a string), including zero, that may also have leading zeros (e.g. `"00003"`). When multiple images are merged into one image (e.g. by image fusion), the `time_point` of the first image is used as `time_point` for the merged image.
 * `channel`: Name of the "channel". A channel usually refers to a combination of different settings such as illumination and detection wavelengths and other settings that do *not* decide the positioning of the sample.
 * `stack`: Name of the "stack". A stack usually refers to a specific positioning of the sample during acquisition.
 * `objective`: Name of the detection objective through which the given image was acquired.
