@@ -271,7 +271,7 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `sensor_size_px`: Size of the camera sensor in pixels.
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
     - `crop_size_px`: Size (width and height) of the region of interest when cropping (in pixels).
-* `illuminations`: Illumination-related parameters.
+* `illuminations`: Illumination-related parameters. Not fully defined yet. Subject to change.
 * `time_stamps`: Acquisition date and time for each image plane, including microseconds. The format is `2021-04-19T14:45:38.073876Z` in UTC (ISO-8601: https://en.wikipedia.org/wiki/ISO_8601).
 
 
