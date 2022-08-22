@@ -217,9 +217,19 @@ The concrete form of the `"processingInformation"` metadata is the following (va
                 "crop_size_px": {
                     "width": 2016,
                     "height": 1050
-                }
+                },
+                "direction": [0.0, 0.0, 1.0]
             },
-            "illuminations": [],
+            "illuminations": [
+              {
+                "objective": "front",
+                "direction": [0.0, 1.0, 0.0]
+              },
+              {
+                "objective": "back",
+                "direction": [0.0, -1.0, 0.0]
+              }
+            ],
             "time_stamps": ["2021-04-19T14:45:38.073876Z", "2021-04-19T14:45:38.075876Z", "2021-04-19T14:45:38.077876Z"]
         }
     ]
@@ -271,7 +281,10 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `sensor_size_px`: Size of the camera sensor in pixels.
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
     - `crop_size_px`: Size (width and height) of the region of interest when cropping (in pixels).
-* `illuminations`: Illumination-related parameters. Not fully defined yet. Subject to change.
+    - `direction`: [Optional] The direction of detection (axis of detection objective) as vector in 3d in "microscope space".
+* `illuminations`: [Optional entries: can be empty list]. Illumination-related parameters. Not fully defined yet. Subject to change.
+    - `objective`: Name of the respective illumination objective.
+    - `direction`: The direction of illumination (axis of illumination objective) as vector in 3d in "microscope space".
 * `time_stamps`: Acquisition date and time for each image plane, including microseconds. The format is `2021-04-19T14:45:38.073876Z` in UTC (ISO-8601: https://en.wikipedia.org/wiki/ISO_8601).
 
 
