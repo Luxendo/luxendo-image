@@ -75,8 +75,10 @@ The concrete form of the `"processingInformation"` metadata is the following (va
     "contains_beads": false,
     "time_point": "00003",
     "channel": "1",
+    "channel_description": "Green-22",
     "pm": "5",
     "stack": "0",
+    "stack_description": "top-left",
     "objective": "left",
     "camera": "left",
     "voxel_size_um": {
@@ -148,8 +150,10 @@ The concrete form of the `"processingInformation"` metadata is the following (va
             "contains_beads": false,
             "time_point": "00003",
             "channel": "1",
+            "channel_description": "Green-22",
             "pm": "5",
             "stack": "0",
+            "stack_description": "top-left",
             "objective": "left",
             "camera": "left",
             "number_planes": 50,
@@ -249,8 +253,10 @@ This metadata is derived (calculated) from the `acquisition` metadata.
 * `contains_beads`: Whether the image contains beads (relevant e.g. for image registration).
 * `time_point`: Name of the time point corresponding to the image. A valid name for a time point is an (unsigned) integer (in the form of a string), including zero, that may also have leading zeros (e.g. `"00003"`). When multiple images are merged into one image (e.g. by image fusion), the `time_point` of the first image is used as `time_point` for the merged image. But in the `"acquisition"` field, in each acquisition-metadata entry for the respective images that were merged, their original `time_point` will be kept.
 * `channel`: Name of the "channel". A channel usually refers to a combination of different settings such as illumination and detection wavelengths and other settings that do *not* decide the positioning of the sample.
+* `channel_description`: [Optional] User-provided, short description of the channel.
 * `pm`: [Optional: missing if no PM set up] Name (ID) of a photo-manipulation (PM) object that was applied during acquisition of this image stack. This PM-object ID uniquely refers to the parameter settings used for the PM, such as geometrical shape of the applied PM inside the sample, laser intensity, timings, etc.
 * `stack`: Name of the "stack". A stack usually refers to a specific positioning of the sample during acquisition.
+* `stack_description`: [Optional] User-provided, short description of the stack (e.g. what it contains or where it is located).
 * `objective`: Name of the detection objective through which the given image was acquired.
 * `camera`: Name of the camera that acquired the image data.
 * `voxel_size_um`: Physical size of the voxels in sample space, in micrometers. `"depth"` is the shortest spacing between the image planes (perpendicular to planes). Important things to note:
@@ -269,7 +275,7 @@ Inside the `acquisition` field, we have the following metadata fields:
 * `serial_number`: The serial number of the microscope.
 * `embedded_version`: Version number of the embedded system running on the microscope.
 * `edits`: In case there were edits to the `acquisition` metadata, this field holds a list of origins and times of the edits.
-* `contains_beads`, `time_point`, `channel`, `stack`, `objective`, `camera`: These have the same meaning as in the "derived" metadata. They appear here again since the image could be a fused image consisting of multiple original images, in which case in the "derived" metadata section we would e.g. have `"camera": "Fused-Left-Right"`, while in the `acquisition` section we would have one set of metadata containing `"camera": "Left"` and another set containing `"camera": "Right"`.
+* `contains_beads`, `time_point`, `channel`, `channel_description`, `stack`, `stack_description`, `objective`, `camera`: These have the same meaning as in the "derived" metadata. They appear here again since the image could be a fused image consisting of multiple original images, in which case in the "derived" metadata section we would e.g. have `"camera": "Fused-Left-Right"`, while in the `acquisition` section we would have one set of metadata containing `"camera": "Left"` and another set containing `"camera": "Right"`.
 * `number_planes`: Number of image planes in the image stack (>= 2).
 * `stage_positions`: Start and end positions (in micrometers, or degrees in case of rotation) for each stage-movement direction, together with the name of the respective direction. Each movement direction and offset are specified as vectors in 3d "microscope space" (reference frame of the microscope).
 * `image_plane_vectors`: The two vectors in 3d microscope space that "span" the imaging plane (plane of the light sheet) along the image "edges" of the camera. These two vectors describe the orientation of the imaging plane with respect to the microscope reference frame, and thus with respect to the stage-movement directions. This flexibly defines the geometrical arrangement of the microscope.
