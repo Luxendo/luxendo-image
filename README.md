@@ -71,6 +71,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
 ```jsonc
 "processingInformation": {
     "version": "1.0.0",
+    "image_id": "kdahkfkjdakj188181kjdalfkjakj996585",
     "sources": ["Luxendo MuVi-SPIM"],
     "contains_beads": false,
     "time_point": "00003",
@@ -143,6 +144,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
     ],
     "acquisition": [
         {
+            "image_id": "kdahkfkjdakj188181kjdalfkjakj996585",
             "microscope_type": "MuVi-SPIM",
             "serial_number": "10047",
             "embedded_version": "3.0.0",
@@ -249,6 +251,7 @@ In the following, the different fields are explained:
 This metadata is derived (calculated) from the `acquisition` metadata.
 
 * `version`: Version number of the Luxendo Image format.
+* `image_id`: [Optional] Unique identifier for the image (typically composed of time stamp of first image plane and system UUID).
 * `sources`: List of sources (software) that generated / contributed to the given Luxendo Image file.
 * `contains_beads`: Whether the image contains beads (relevant e.g. for image registration).
 * `time_point`: Name of the time point corresponding to the image. A valid name for a time point is an (unsigned) integer (in the form of a string), including zero, that may also have leading zeros (e.g. `"00003"`). When multiple images are merged into one image (e.g. by image fusion), the `time_point` of the first image is used as `time_point` for the merged image. But in the `"acquisition"` field, in each acquisition-metadata entry for the respective images that were merged, their original `time_point` will be kept.
@@ -271,6 +274,7 @@ This metadata is derived (calculated) from the `acquisition` metadata.
 
 Inside the `acquisition` field, we have the following metadata fields:
 
+* `image_id`: [Optional] Unique identifier for the image (typically composed of time stamp of first image plane and system UUID).
 * `microscope_type`: The type of microscope from which the acquired image data stems (e.g. "Luxendo MuVi-SPIM").
 * `serial_number`: The serial number of the microscope.
 * `embedded_version`: Version number of the embedded system running on the microscope.
