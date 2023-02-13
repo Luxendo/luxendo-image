@@ -298,7 +298,7 @@ Inside the `acquisition` field, we have the following metadata fields:
     - `sensor_size_px`: Size of the camera sensor in pixels.
     - `crop_offset_px`: Offset in case the image is cropped (in pixels).
     - `crop_size_px`: Size (width and height) of the region of interest when cropping (in pixels).
-    - `direction`: [Optional] The direction of detection (axis of detection objective) as vector in 3d in "microscope space".
+    - `direction`: [Optional] The direction of detection (axis of detection objective) as vector in 3d in "microscope space". If it's not provided (e.g. because it's not specified in the config file of the microscope), then it is assumed that the detection direction is the cross product of the left-to-right and top-to-bottom image-plane vectors (see above).
 * `illuminations`: [Optional entries: can be empty list]. Illumination-related parameters. Not fully defined yet. Subject to change.
     - `objective`: Name of the respective illumination objective.
     - `direction`: The direction of illumination (axis of illumination objective) as vector in 3d in "microscope space".
