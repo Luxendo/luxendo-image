@@ -7,18 +7,18 @@ Luxendo Image is based on the widely used, open HDF5 (`.h5`) format, to achieve 
 
 ## Table of contents
 
-- [Luxendo Image](#luxendo-image)
-  - [Table of contents](#table-of-contents)
-  - [Goals](#goals)
-  - [Structure](#structure)
-    - [The experiment folder](#the-experiment-folder)
-    - [Image Data](#image-data)
-    - [Metadata](#metadata)
-      - ["Derived" metadata](#derived-metadata)
-      - [Acquisition metadata](#acquisition-metadata)
-    - [Example structure](#example-structure)
-    - [Optional nested groups in a `.lux.h5` file](#optional-nested-groups-in-a-luxh5-file)
-    - [The "main" file](#the-main-file)
+- [Table of contents](#table-of-contents)
+- [Goals](#goals)
+- [Structure](#structure)
+  - [The experiment folder](#the-experiment-folder)
+  - [Image Data](#image-data)
+  - [Metadata](#metadata)
+    - ["Derived" metadata](#derived-metadata)
+    - [Acquisition metadata](#acquisition-metadata)
+  - [Example structure](#example-structure)
+  - [Optional nested groups in a `.lux.h5` file](#optional-nested-groups-in-a-luxh5-file)
+  - [The "main" file](#the-main-file)
+- [Authors](#authors)
 
 ## Goals
 
@@ -458,3 +458,12 @@ timepoint_Second
 
 Within a time point `timepoint_<name>`, there can be multiple channels `channel_<name>`, which in turn can contain multiple views `raw_<name>` or `proc_<name>`, depending whether the view links to `raw` or `processed` data.
 At the deepest nesting level, there are the links to the datasets for the different resolutions (`Data`, `Data_2_2_2`, etc.) and to the metadata (`metadata`).
+
+## Authors
+
+This document was written by
+
+- Jan Roden, senior software architect
+- Balint Balazs, senior software architect
+
+Feedback can be sent to [software.luxendo@bruker.com](mailto:software.luxendo@bruker.com)
