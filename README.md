@@ -19,13 +19,14 @@ Luxendo Image is based on the widely used, open HDF5 (`.h5`) format, to achieve 
   - [Optional nested groups in a `.lux.h5` file](#optional-nested-groups-in-a-luxh5-file)
   - [The "main" file](#the-main-file)
 - [Authors](#authors)
+- [License](#license)
 
 ## Goals
 
 The main goals for the Luxendo Image format are:
 
 - Stability and long-term compatibility
-- Avoid data duplication and provide flexibility by linking to the raw data from a "main" file. Different "main" files can implement different image formats while linking to the same raw data.
+- Avoid data duplication and provide flexibility by linking to the raw data from a "main" file.
 - Enable everyone to load and create Luxendo Image files in their own software and custom processing / analysis pipelines.
 - Metadata:
   - Clearly distinguish between "acquisition" and "derived" metadata to transparently keep track of metadata, e.g. when multiple images are fused.
@@ -52,8 +53,6 @@ An experiment has a folder structure similar to the example below.
       - Cam_right_00000.lux.h5
       - Cam_right_00001.json
       - Cam_right_00001.lux.h5
-  - 📄 bdv.h5
-  - 📄 bdv.xml
   - 📄 main.lux.h5
 
 The root folder is automatically generated, and it's named with a unique timestamp.
@@ -65,7 +64,7 @@ The `raw` subfolder contains the raw image data as well as the metadata, grouped
 - image data files: `.lux.h5` extension
 - metadata file: `.json` extension
 
-In addition, the root folder contains "wrapper" or "main" files, which link to the image data in the `raw` folder. The wrapper files can provide a compatibility interface to multiple image analysis software. Currently Fiji BigDataViewer is supported by default.
+In addition, the root folder contains "wrapper" or "main" files, which link to the image data in the `raw` folder. The wrapper files can provide a compatibility interface to multiple image analysis software.
 
 To move or copy the images to a different location, the experiment folder should be moved/copied as a whole, to not break the links in the main files pointing to the image data.
 
@@ -463,7 +462,11 @@ At the deepest nesting level, there are the links to the datasets for the differ
 
 This document was written by
 
-- Jan Roden, senior software architect
-- Balint Balazs, senior software architect
+- Jan Roden, Senior Software Architect
+- Balint Balazs, Senior Software Architect
 
 Feedback can be sent to [software.luxendo@bruker.com](mailto:software.luxendo@bruker.com)
+
+## License
+
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/Luxendo/luxendo-image">This work (all Markdown and PDF documents in this repository)</a> © 2023 by <span property="cc:attributionName">Luxendo GmbH</span> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
