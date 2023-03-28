@@ -462,7 +462,7 @@ At the deepest nesting level, there are the links to the datasets for the differ
 
 This document was written by
 
-- Jan Roden, Senior Software Architect
+- Jan Roden, Senior Software Architect at Luxendo
 - Balint Balazs, Senior Software Architect
 
 Feedback can be sent to [software.luxendo@bruker.com](mailto:software.luxendo@bruker.com)
