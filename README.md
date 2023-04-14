@@ -140,6 +140,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
     "objective": "left",
     "camera": "left",
     "repetition": 0,
+    "stack_scan_id": "oc:default_st:0_ch:1_tp:3_pm:5",
     "voxel_size_um": {
         "width": 0.40625,
         "height": 0.40625,
@@ -217,6 +218,7 @@ The concrete form of the `"processingInformation"` metadata is the following (va
             "objective": "left",
             "camera": "left",
             "repetition": 0,
+            "stack_scan_id": "oc:default_st:0_ch:1_tp:3_pm:5",
             "number_planes": 50,
             "stage_positions": [
                 {
@@ -322,6 +324,7 @@ This metadata is derived (calculated) from the `acquisition` metadata.
 - `objective`: Name of the detection objective through which the given image was acquired.
 - `camera`: Name of the camera that acquired the image data.
 - `repetition`: [Optional: assumed to be 0 when missing] Maximum of the `repetition` numbers in the `acquisition` metadata (see explanation of the `repetition` field in `acquisition` metadata below).
+- `stack_scan_id`: [Optional] Images acquired during the *same* stack scan (same stage sweep), have the same unique (within experiment) `stack_scan_id`. If two images have different `stack_scan_id`s, they belong to different stack scans, i.e., the sample may have moved (drifted) between these two images. This information can be useful e.g. when deciding whether / how to register the images in post processing.  
 - `voxel_size_um`: Physical size of the voxels in sample space, in micrometers. `"depth"` is the shortest spacing between the image planes (perpendicular to planes). Important things to note:
   - This voxel size is *also* contained in the (first applied) scaling part of the transform given by `affine_to_sample` (see below). This is because, when opening the image with a viewer/software that is unable to apply the `affine_to_sample` transform, it should still be able to show the data with the correct voxel size, read from `voxel_size_um`.
   - On the other hand, any viewer or processing software that *can* apply the `affine_to_sample` transform should *ignore* `voxel_size_um` and use `(1,1,1)` as voxel size instead, and then automatically get the correct voxel size from applying `affine_to_sample`, which contains the scaling.
@@ -341,6 +344,7 @@ Inside the `acquisition` field, we have the following metadata fields:
 - `edits`: In case there were edits to the `acquisition` metadata, this field holds a list of origins and times of the edits.
 - `contains_beads`, `time_point`, `channel`, `channel_description`, `stack`, `stack_description`, `objective`, `camera`: These have the same meaning as in the "derived" metadata. They appear here again since the image could be a fused image consisting of multiple original images, in which case in the "derived" metadata section we would e.g. have `"camera": "Fused-left-right"`, while in the `acquisition` section we would have one set of metadata containing `"camera": "left"` and another set containing `"camera": "right"`.
 - `repetition`: [Optional: assumed to be 0 when missing] If the acquisition of the image stack was repeated, this counter indicates the n-th repetition, with n > 0. When n = 0, the acquisition of the stack was NOT repeated, i.e., the stack was only acquired once.
+- `stack_scan_id`: [Optional] Images acquired during the *same* stack scan (same stage sweep), have the same unique (within experiment) `stack_scan_id`. If two images have different `stack_scan_id`s, they belong to different stack scans, i.e., the sample may have moved (drifted) between these two images. This information can be useful e.g. when deciding whether / how to register the images in post processing.
 - `number_planes`: Number of image planes in the image stack.
 - `stage_positions`: Start and end positions (in micrometers, or degrees in case of rotation) for each stage-movement direction, together with the name of the respective direction. Each movement direction and offset are specified as vectors in 3d "microscope space" (reference frame of the microscope).
 - `image_plane_vectors`: The two vectors in 3d microscope space that "span" the imaging plane (plane of the light sheet) along the image "edges" of the camera. These two vectors describe the orientation of the imaging plane with respect to the microscope reference frame, and thus with respect to the stage-movement directions. This flexibly defines the geometrical arrangement of the microscope.
